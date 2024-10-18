@@ -1,0 +1,54 @@
+import json
+
+def create_deep_structure(depth):
+    result = {}
+    current = result
+    for i in range(depth):
+        current["nested"] = {}
+        current = current["nested"]
+    return result
+
+deep_data = create_deep_structure(10)
+data_4 = json.dumps(deep_data)
+
+large_array = [i for i in range(100)]
+data_5 = json.dumps(large_array)
+data_5_length = len(data_5)
+
+uncommon_unicode = {
+    "left_to_right_override": "\u202d",
+    "right_to_left_override": "\u202e"
+}
+
+data_6 = json.dumps(uncommon_unicode, indent=4)
+
+json_with_comments = """
+{
+    "name": "John",
+    "age": 30
+}
+"""
+
+data_7 = json.loads(json_with_comments)
+
+control_characters = {
+    "control_char": "\x01\x02"
+}
+
+data_8 = json.dumps(control_characters, indent=4)
+
+malformed_json = '{"name": "John", "age": 30, "city": "New York"'
+
+data_9 = json.loads(malformed_json)
+
+duplicate_keys_json = '{"username": "user1", "username": "admin"}'
+
+data_10 = json.loads(duplicate_keys_json)
+
+large_precision_floats = {
+    "small_float": 1.23e-10,
+    "large_float": 1.23e10
+}
+
+data_11 = json.dumps(large_precision_floats, indent=4)
+

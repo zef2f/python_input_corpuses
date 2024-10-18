@@ -1,0 +1,31 @@
+import json
+import datetime
+import decimal
+import uuid
+
+data_4 = json.dumps({
+    "current_time": datetime.datetime.now(),
+    "date_only": datetime.date.today(),
+    "uuid": uuid.uuid4(),
+    "decimal_number": decimal.Decimal("12345.6789")
+}, default=lambda o: o.isoformat() if isinstance(o, (datetime.date, datetime.datetime)) else str(o) if isinstance(o, uuid.UUID) else float(o) if isinstance(o, decimal.Decimal) else None, indent=4)
+
+deeply_nested = {"data": "start"}
+current_level = deeply_nested
+for i in range(1000):
+    current_level["next"] = {"level": i}
+    current_level = current_level["next"]
+try:
+    data_5 = json.dumps(deeply_nested)
+except RecursionError as e:
+    data_5 = str(e)
+
+class CustomObject:
+    def __init__(self, value):
+        self.value = value
+
+try:
+    data_6 = json.dumps({"custom_object": CustomObject(10)}, indent=4)
+except TypeError as e:
+    data_6 = str(e)
+

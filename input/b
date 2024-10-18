@@ -1,0 +1,33 @@
+import json
+import math
+
+try:
+    data_7 = json.dumps({None: "ключ None", 123: "числовой ключ", True: "ключ boolean", (1, 2): "ключ кортеж"}, indent=4)
+except TypeError as e:
+    data_7 = str(e)
+
+try:
+    data_8_1 = json.dumps({"large_string": "a" * (10**6)})[:100] + "..."
+    data_8_2 = json.dumps({"large_list": list(range(10**6))})[:100] + "..."
+except Exception as e:
+    data_8_1 = data_8_2 = str(e)
+
+data_9 = json.dumps({
+    "pi": math.pi,
+    "e": math.e,
+    "small_float": 1.23e-100,
+    "large_float": 1.23e100
+}, indent=4)
+
+malformed_json = '{"name": "John", "age": 30, "city": "New York",}'
+try:
+    data_10 = json.loads(malformed_json)
+except json.JSONDecodeError as e:
+    data_10 = str(e)
+
+ancient_data = '{"имя": "Иван", "возраст": 40, "город": "Москва", "дата": "2021-10-18T12:34:56"}'
+try:
+    data_11 = json.loads(ancient_data)
+except Exception as e:
+    data_11 = str(e)
+

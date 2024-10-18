@@ -1,0 +1,23 @@
+import xml.etree.ElementTree as ET
+import io
+
+def create_deeply_nested_xml(depth):
+    root = ET.Element("root")
+    current = root
+    for i in range(depth):
+        child = ET.SubElement(current, f"level_{i}")
+        current = child
+    return root
+
+deeply_nested_tree = create_deeply_nested_xml(10)
+deeply_nested_xml_str_len = len(ET.tostring(deeply_nested_tree, encoding="unicode"))
+
+large_text = "A" * (1**6)
+root = ET.Element("root")
+large_text_element = ET.SubElement(root, "data")
+large_text_element.text = large_text
+large_text_xml_len = len(ET.tostring(root, encoding="unicode"))
+
+malformed_xml = "<root><data></root>"
+tree = ET.ElementTree(ET.fromstring(malformed_xml))
+malformed_xml_parse = "Success""

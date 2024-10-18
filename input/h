@@ -1,0 +1,42 @@
+import xml.etree.ElementTree as ET
+import io
+
+class CustomObject:
+    def __init__(self, value):
+        self.value = value
+
+root = ET.Element("root")
+custom_data = ET.SubElement(root, "custom_data")
+custom_data.text = str(CustomObject(10))
+custom_object_xml = ET.tostring(root, encoding="unicode")
+
+root = ET.Element("root")
+for i in range(1**5):
+    ET.SubElement(root, "element", attrib={"id": str(i)})
+
+large_tree_element_count = ET.tostring(root, encoding="unicode").count('<element')
+
+root = ET.Element("root")
+for i in range(10):
+    ET.SubElement(root, "item", attrib={f"key_{j}": "A" * 10 for j in range(10)})
+
+complex_attr_xml_len = len(ET.tostring(root, encoding="unicode"))
+
+empty_element = ET.Element("empty")
+empty_xml_str = ET.tostring(empty_element, encoding="unicode")
+
+xml_data = b'<?xml version="1.0" encoding="utf-8"?><root><child>Текст</child></root>'
+stream = io.BytesIO(xml_data)
+tree = ET.parse(stream)
+root = tree.getroot()
+child_text = root.find('child').text
+
+multiple_declaration_xml = """<?xml version="1.0"?><root></root><?xml version="1.0"?>"""
+
+tree = ET.ElementTree(ET.fromstring(multiple_declaration_xml))
+multiple_declaration_parse = "Success"
+
+special_symbols_xml = """<root attr="&amp;&lt;&gt;&quot;&apos;"></root>"""
+
+tree = ET.ElementTree(ET.fromstring(special_symbols_xml))
+special_symbols_xml_parse = ET.tostring(tree.getroot(), encoding='unicode')

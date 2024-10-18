@@ -1,0 +1,28 @@
+import json
+import math
+import decimal
+import datetime
+import uuid
+
+data_1 = json.dumps({
+    "int": 12345678901234567890,
+    "float": 1.234567890123456789e100,
+    "string": "строка с unicode символами\n\t\\\"",
+    "boolean": True,
+    "null": None
+}, indent=4)
+
+data_2 = json.dumps({
+    "nested_dict": {"level_1": {"level_2": {"level_3": "глубоко вложенные данные"}}},
+    "nested_list": [[[[[["очень глубоко вложенный список"]]]]]]
+}, indent=4)
+
+try:
+    data_3 = json.dumps({
+        "positive_infinity": float('inf'),
+        "negative_infinity": float('-inf'),
+        "nan": float('nan')
+    }, indent=4)
+except ValueError as e:
+    data_3 = str(e)
+

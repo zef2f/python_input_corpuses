@@ -1,0 +1,22 @@
+import json
+
+huge_numbers = {
+    "very_large_number": 10**10,
+    "very_small_number": 10**-10
+}
+
+data_1 = json.dumps(huge_numbers, indent=4)
+
+a = {}
+b = {"ref": a}
+a["ref"] = b
+
+data_2 = json.dumps(a)
+
+special_chars = {
+    "break_line": "\n",
+    "unicode_char": "\u202e",
+    "null_char": "\0"
+}
+
+data_3 = json.dumps(special_chars, indent=4)
