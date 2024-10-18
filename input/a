@@ -1,0 +1,35 @@
+import ssl
+
+context = ssl.create_default_context()
+
+pem_cert = """
+-----BEGIN CERTIFICATE-----
+MIIDXzCCAkcCFDaCnhWkQAuo+pnJSadiDomtBUlqMA0GCSqGSIb3DQEBCwUAMGwx
+CzAJBgNVBAYTAlJVMQwwCgYDVQQIDANTUGIxDDAKBgNVBAcMA1NQYjELMAkGA1UE
+CgwCR0cxCzAJBgNVBAsMAmdnMQ0wCwYDVQQDDARKaG9uMRgwFgYJKoZIhvcNAQkB
+FglnZ0BnZy5jb20wHhcNMjQxMDE4MDgzOTUyWhcNMjQxMTE3MDgzOTUyWjBsMQsw
+CQYDVQQGEwJSVTEMMAoGA1UECAwDU1BiMQwwCgYDVQQHDANTUGIxCzAJBgNVBAoM
+AkdHMQswCQYDVQQLDAJnZzENMAsGA1UEAwwESmhvbjEYMBYGCSqGSIb3DQEJARYJ
+Z2dAZ2cuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAthSI00Uo
+TU952qnlh+jhOzfzjRIBxfGVzIS88Ru6c1dFwF+f92MEYcpMHUDWt4dYOBt6aZv5
+R04swpBC6+Gj+t0vDsR/sm8F43rbq8szL9QPJVWgD9LodgxbDlGS7QnDZRR/V4Cf
+od4VX2EWmOovjjTRUq8QycY9f3RYFONgWBF08opyvRpEIULmP04wz3jHvh4cgNF/
+StciqFpMCaUGxtcESs1SWWE5WXwuEx4raDg1DYMvLryqZmlUr4RTOkP8J7jztUBH
+AW0mvxRl43gP+CClObC/Fn3rceUJNb+RZnorIjrx0YSS5C8WAepghZTlu+LPnKSQ
+WAvd6dQ+//j3bQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBq4ngyGmzbzpUljP7z
+q6ivE4ZN4IcqhuJ1W66DzsuM4ov1uI+WMT4ym67gqEQp0SpL525lNeeDk3i5NuSg
+2Fdf9C0yxtHvhkhQRcQ4t3pHzbONVePzKEEKBpaAhWS/z6QhV00LyjdOkhPHwgVt
+q52Fng6lj0sG2ejIpZ9UxxXnkC1zhEjscrIXexeKHjSimsze6294PHusSLcDF12+
+G5jEsfQ7oZSlyKhmIyVmf5ayFtqfnVOSy+UTowBUbdYqYSOL83ilvMaf40gGmsjx
+xI+OfG9UjRkwIGi8lxnJYomQxNiTrqc0uVWzHaEBRb4Owu/4xElxcKP2d1whMnia
+rDWz
+-----END CERTIFICATE-----
+"""
+
+context.load_verify_locations(cadata=pem_cert)
+context.set_ciphers("ECDHE-RSA-AES256-GCM-SHA384")
+context.set_ecdh_curve("prime256v1")
+context.set_default_verify_paths()
+context.set_alpn_protocols(['http/1.1', 'h2'])
+context.options |= ssl.OP_NO_SSLv3
+context.verify_flags = ssl.VERIFY_CRL_CHECK_LEAF
